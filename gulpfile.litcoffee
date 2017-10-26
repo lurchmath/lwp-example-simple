@@ -1,5 +1,5 @@
 
-# Build processes using [Gulp](http://gulpjs.com)
+# Build process using [Gulp](http://gulpjs.com)
 
 Load Gulp modules.
 
