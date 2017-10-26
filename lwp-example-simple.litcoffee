@@ -1,35 +1,33 @@
 
-# Simple Example webLurch Application
+# Lurch Web Platform, Simple Example Application
 
 ## Overview
 
-This explanation assumes that you  want to build an application in the Lurch
-Web Platform (LWP).  [(What's the LWP?)](../README.md)
+This source code file defines a very simple application built on the
+[Lurch Web Platform](https://github.com/lurchmath/lurch) (LWP).
+Consider this the "hello world") of the LWP.  Once you understand this
+simple example, feel free to browse some of the other examples in
+[the Lurch Project's GitHub space](https://github.com/lurchmath).
 
-This file shows how to build an extremely simple application (like a "hello
-world") in the LWP.  [See a live version of the result
-here.](http://nathancarter.github.io/weblurch/app/simple-example.html)
+[See a live version of the result
+here.](https://lurchmath.github.io/lwp-example-simple/)
 
-Two files make up this example.  This one is more important.  The other is
-[simple-example.html](simple-example.html), which is almost entirely
-boilerplate code (as commented in its source), plus one line that imports
-the compiled version of *this* file.
+Two files make up this example.  This one is the more important of the two.
+The other is the [index.html](index.html) file, which just loads various
+scripts, includin the LWP and this file, among others.
 
-To make your own app, you will also need two files.
- * Make a copy of this file and modify its code to suit your needs.  Run
-   the [CoffeeScript](http://www.coffeescript.org) compiler on it to
-   generate JavaScript.
- * Make a copy of `simple-example.html`, and change one (clearly marked)
-   line to import your generated JavaScript.
+To make your own app, you can duplicate these same two files, and customize
+them to the needs of your app.  You may need a
+[simple build process](gulpfile.litcoffee) to compile
+[CoffeeScript](http://www.coffeescript.org) source like this into
+JavaScript, or you can just write in JavaScript in the first place.
 
-Now begins the code that defines this simple application. After this file,
-you can [examine other examples](
-http://nathancarter.github.io/weblurch/app/index.html).
+Now, the code:
 
 ## Set the app name
 
-The LWP provides a single function to set the app name.  Call it like so.
-The app name appears in the browser's/tab's title bar.
+The LWP provides a function to set the app name, for in the browser's/tab's
+title bar.  Call it like so:
 
     setAppName 'ExampleApp'
 
@@ -38,27 +36,30 @@ The app name appears in the browser's/tab's title bar.
 We want the app itself to link to this documented source code file, so that
 users who stumble upon the app can easily find its documentation.
 
-    addHelpMenuSourceCodeLink 'app/simple-example-solo.litcoffee'
+    addHelpMenuSourceCodeLink \
+        'lwp-example-simple/blob/master/lwp-example-simple.litcoffee'
 
 We also change the Help/About menu item to be specific to this demo app.
 
     window.helpAboutText =
         '<p>See the fully documented <a target="top"
-        href="https://github.com/nathancarter/weblurch/blob/master/app/simple-example-solo.litcoffee"
+        href="https://github.com/lurchmath/lwp-example-simple/blob/master/lwp-example-simple.litcoffee"
         >source code for this demo app</a>.</p>'
 
 ## Define one group type
 
-We assign to a global variable the array of group types we'd like to have in
-our word processor.  The LWP setup process looks for this global variable,
-and, if it exists, respects its settings.  If it does not exist, a very
-simple default setup is used instead.
+In the LWP, "groups" are the way users mark up a document to give it some
+meaning.  They are shown in the UI as bubbles around the marked text.
 
-In this case, we will make the array have length one, as we are adding just
-one type.  You will see it show up as a button on the app's toolbar with an
-icon that looks like two brackets, `[ ]`, because such an icon will be
-generated from the `imageHTML` attribute provided below.  The open and close
-variants are used in the document to delimit group boundaries.
+We assign to a global variable the array of group types we'd like to have in
+this application.  The LWP setup process looks for this global variable and,
+if it exists, uses its settings in place of the simple defaults.
+
+In this app, we will make just one group type.  It shows up as a button on
+the app's toolbar with an icon that looks like two brackets, `[ ]`, because
+such an icon will be generated from the `imageHTML` attribute provided
+below.  The open and close variants are used in the document to delimit
+group boundaries.
 
     window.groupTypes = [
         name : 'reporter'
@@ -73,7 +74,7 @@ function should be fast to compute, since it will be run often.  Usually it
 just reports the (stored) results of previously-executed computations.
 
 In this app, bubble tags are very simple:  They report how many characters
-are in the group.
+are in the group, just as an example.
 
         tagContents : ( group ) ->
             "#{group.contentAsText()?.length} characters"
@@ -86,7 +87,7 @@ any particular initialization of newly constructed groups, it can check the
 
 In this simple app, we just write to the browser console a notification that
 the group's contents have changed.  Open your browser console to see
-notifications stream by as you type inside a "reporter" group.
+notifications stream by as you type text inside a group.
 
         contentsChanged : ( group, firstTime ) ->
             console.log 'This group just changed:', group.contentAsText()
@@ -100,15 +101,8 @@ relatively fast.
 
 In this simple app, we just write to the browser console a notification that
 the group was deleted.  Open your browser console to see notifications
-appear whenever you delete a "reporter" group.
+appear whenever you delete a group.
 
         deleted : ( group ) ->
             console.log 'You deleted this group:', group
     ]
-
-Functions that need to do lengthy computations can run them in the
-background.  webLurch has a built-in mechanism to make this easy.  To see
-how to use it, see
-[the more complex example application](complex-example-solo.litcoffee),
-one of the [many examples](
-http://nathancarter.github.io/weblurch/app/index.html) available.
