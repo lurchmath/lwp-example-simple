@@ -9,8 +9,8 @@ Load Gulp modules.
     sourcemaps = require 'gulp-sourcemaps' # create source maps
     pump = require 'pump' # good error handling of gulp pipes
 
-The only build task in this simple repository to compiles the one source
-file, with minification and source maps.
+The only build task in this simple repository compiles the one source file,
+with minification and source maps.
 
     gulp.task 'default', -> pump [
         gulp.src 'lwp-example-simple.litcoffee'
